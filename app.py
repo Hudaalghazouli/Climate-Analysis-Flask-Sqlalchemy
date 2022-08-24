@@ -4,6 +4,7 @@ import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
+from datetime import datetime
 
 from flask import Flask, jsonify
 
@@ -30,7 +31,9 @@ def welcome():
         f"Available Routes:<br/>"
         f"/api/v1.0/precipitation<br/>"
         f"/api/v1.0/stations<br/>"
-        f"/api/v1.0/tobs"
+        f"/api/v1.0/tobs<br/>"
+        f"/api/v1.0/start<br/>"
+        f"/api/v1.0/start/end"
     )
 
 @app.route("/api/v1.0/precipitation")
@@ -60,6 +63,21 @@ def tobs():
     session.close()
     all_tobs = list(np.ravel(results))
     return jsonify(all_tobs)
+
+@app.route("/api/v1.0/<start>", defaults={"end": None})
+@app.route("/api/v1.0/<start>/<end>")
+def temp_date(start, end):
+    session = Session(engine)
+    if end != None:
+        results = session.query(func.min(Measurement.tobs), func.max(Measurement.tobs), func.avg(Measurement.tobs)) \
+                         .filter(Measurement.date >= start).filter(Measurement.date <= end).all()
+    else:
+        results = session.query(func.min(Measurement.tobs), func.max(Measurement.tobs), func.avg(Measurement.tobs)) \
+                         .filter(Measurement.date >= start).all()
+    session.close()
+    all_dates = list(np.ravel(results))
+    return jsonify(all_dates)
+    
 
 if __name__ == '__main__':
     app.run(debug=True)
