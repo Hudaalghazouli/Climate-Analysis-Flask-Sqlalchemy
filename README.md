@@ -4,7 +4,7 @@
 ### **Part 1: Climate Analysis and Exploration**
 
 - **Created** engine to connect to the sqlite file `hawaii.sqlite`.
-- **Used** automap to reflect the tables and creating two classes `Station` and `Measurement`.
+- **Used** automap to reflect the tables and to create the classes `Station` and `Measurement`.
 - **Created** SQLAlchemy session.
 
 #### **Precipitation Analysis**
@@ -29,14 +29,14 @@
 
 - **Calculated** the total number of stations.
 
-- **Found** the most active stations in the dataset by calculationg the rows count of each unique station.
+- **Found** the most active stations in the dataset by calculating the rows count of each unique station.
 
 - **Found** the most active station by listing them in descending order.
     ``` py
     uniqueValuesCount = session.query(Measurement.station, func.count()).\
     group_by(Measurement.station).order_by(func.count().desc()).all()
     ```
-- **Calculated** the lowest, highest and average temperature by from column `tobs` table `Measurement`
+- **Calculated** the lowest, highest and average temperature from column `tobs` table `Measurement`
 
 - **Found** the previous year of temperature observation data for the most active station.
     ``` py 
@@ -60,7 +60,7 @@
     * Homepage.
 
 * `/api/v1.0/precipitation`
-    * **Converted** the results to dictionary
+    * **Converted** the results to a dictionary
     * **Returned** the dictionary.
 
 * `/api/v1.0/stations`
@@ -68,7 +68,7 @@
     * **Returned** a list of the stations id.
 
 * `/api/v1.0/tobs`
-    **Designed** a query for the dates and the temperature for the most active station during the previous year.
+    * **Designed** a query for the dates and the temperature for the most active station during the previous year.
     * **Returned** a list of temperature.
 
 * `/api/v1.0/<start>` and `/api/v1.0/<start>/<end>`
