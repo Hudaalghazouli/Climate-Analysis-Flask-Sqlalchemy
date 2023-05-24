@@ -1,5 +1,5 @@
 # Sqlite Challenge
-hg
+h
 
 ### **Part 1: Climate Analysis and Exploration**
 
